@@ -44,13 +44,16 @@ router.post('/users/me/avatar',auth, upload.single('avatar'),async (req, res) =>
     //handle error
     res.status(400).send({error:error.message})
 })
-router.delete('users/me/avatar',auth,async(req,res)=>{
-    
-    // if (req.user.avatar) {
+router.delete('/users/me/avatar',auth,async(req,res)=>{
+    try {
+
     req.user.avatar=undefined    
-    // }
     await req.user.save()
     res.status(200).send()
+    } catch (e) {
+        res.status(400).send(e)
+    }
+  
 })
 router.get('/users/:id/avatar',async (req,res)=>{
     try {
